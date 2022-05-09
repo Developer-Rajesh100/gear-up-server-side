@@ -88,8 +88,8 @@ async function run() {
 }
 run().catch(console.dir);
 
-app.get("/", (req, res) => {
-  res.send("Running Server");
+app.get("/gear", (req, res) => {
+  res.send("Running is Server");
 });
 app.listen(port, () => {
   console.log("Server is running", port);
