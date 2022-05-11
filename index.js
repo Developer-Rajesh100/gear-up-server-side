@@ -97,13 +97,17 @@ async function run() {
       const addQuantity = req.body;
       const filter = { _id: ObjectId(id) };
       const options = { upsert: true };
-      console.log(count);
+      console.log(addQuantity);
       const updateDoc = {
         $set: {
-          quantity: addQuantity.newQuantity,
+          quantity: addQuantity.stockQuantity,
         },
       };
-      const result = await carCollection.updateOne(filter, updateDoc, options);
+      const result = await productCollection.updateOne(
+        filter,
+        updateDoc,
+        options
+      );
       res.send(result);
 
       //res.send({msg:'success'})
