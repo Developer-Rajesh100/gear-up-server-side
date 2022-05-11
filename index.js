@@ -50,38 +50,56 @@ async function run() {
       res.send(result);
     });
     //DELEVER
-    app.put("/product/:id", async (req, res) => {
-      const deleverProduct = req.body.newQuentity;
-      const id = req.params.id;
-      const query = { _id: ObjectId(id) };
-      const product = await productCollection.findOne(query);
-      const option = { upsert: true };
-      const updatePro = {
-        $set: {
-          ...product,
-          quentity: deleverProduct,
-        },
-      };
-      const result = await productCollection.updateOne(
-        query,
-        updatePro,
-        Option
-      );
-      res.send(result);
-    });
+    // app.put("/product/:id", async (req, res) => {
+    //   const deleverProduct = req.body.newQuentity;
+    //   const id = req.params.id;
+    //   const query = { _id: ObjectId(id) };
+    //   const product = await productCollection.findOne(query);
+    //   const option = { upsert: true };
+    //   const updatePro = {
+    //     $set: {
+    //       ...product,
+    //       quentity: deleverProduct,
+    //     },
+    //   };
+    //   const result = await productCollection.updateOne(
+    //     query,
+    //     updatePro,
+    //     Option
+    //   );
+    //   res.send(result);
+    // });
     // ADD QUENTITY
-    app.put("/product/:id", async (req, tes) => {
-      const deleverProduct = req.body.newQuentity;
-      const id = req.params.id;
-      const query = { _id: ObjectId(id) };
-      const product = await productCollection.findOne(query);
-      const option = { upsert: true };
-      const updatePro = {
+    // app.put("/product/:id", async (req, tes) => {
+    //   const deleverProduct = req.body.newQuentity;
+    //   const id = req.params.id;
+    //   const query = { _id: ObjectId(id) };
+    //   const product = await productCollection.findOne(query);
+    //   const option = { upsert: true };
+    //   const updatePro = {
+    //     $set: {
+    //       ...product,
+    //       quantity: deleverProduct,
+    //     },
+    //   };
+    // });
+
+    app.put("/product/:productdetailsId", async (req, res) => {
+      const id = req.params.productdetailsId;
+      //console.log('empty', id);
+      const addQuantity = req.body;
+      const filter = { _id: ObjectId(id) };
+      const options = { upsert: true };
+      console.log(count);
+      const updateDoc = {
         $set: {
-          ...product,
-          quantity: deleverProduct,
+          quantity: addQuantity.newQuantity,
         },
       };
+      const result = await carCollection.updateOne(filter, updateDoc, options);
+      res.send(result);
+
+      //res.send({msg:'success'})
     });
   } finally {
   }
