@@ -56,13 +56,16 @@ async function run() {
     app.put("/product/:productdetailsId", async (req, res) => {
       const id = req.params.productdetailsId;
       //console.log('empty', id);
-      const addQuantity = req.body;
+      const addQuantity = req.body.stockQuantity;
+      console.log(addQuantity);
       const filter = { _id: ObjectId(id) };
+      const product = await productCollection.findOne(filter);
       const options = { upsert: true };
       console.log(addQuantity);
       const updateDoc = {
         $set: {
-          quantity: addQuantity.quantity,
+          ...product,
+          quantity: addQuantity,
         },
       };
       const result = await productCollection.updateOne(
@@ -71,8 +74,28 @@ async function run() {
         options
       );
       res.send(result);
-
-      //res.send({msg:'success'})
+    });
+    app.put("/pd/:productdetailsId", async (req, res) => {
+      const id = req.params.productdetailsId;
+      //console.log('empty', id);
+      const addQuantity = req.body.newQuantity;
+      console.log(addQuantity);
+      const filter = { _id: ObjectId(id) };
+      const product = await productCollection.findOne(filter);
+      const options = { upsert: true };
+      console.log(addQuantity);
+      const updateDoc = {
+        $set: {
+          ...product,
+          quantity: addQuantity,
+        },
+      };
+      const result = await productCollection.updateOne(
+        filter,
+        updateDoc,
+        options
+      );
+      res.send(result);
     });
   } finally {
   }
